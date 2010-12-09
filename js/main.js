@@ -16,8 +16,12 @@ function Ball(x, y, radius) {
 		z: 0
 	};
 
-	this.setAcceleration = function(orientData) {
-		self.acceleration = orientData;
+	this.setAcceleration = function(event) {
+		self.acceleration = event.acceleration;
+	};
+
+	this.setAccelerationFromOrientation = function(event) {
+		self.acceleration = { x: Math.sin(event.gamma*Math.PI/180), y: Math.sin(event.beta*Math.PI/180), z: 1 };
 	};
 
 	this.updateSpeeds = function() {
@@ -70,12 +74,14 @@ $(function() {
 	var BALL_RADIUS = 50;
 
 	var canvas = $("#canvas").get(0);
-	canvas.width = $("body").width() - 5;
-	canvas.height = $("body").height() - 5;
+	canvas.width = $(window).width() - 5;
+	canvas.height = $(window).height() - 5;
 
 	var ball = new Ball(canvas.width/2, 0, BALL_RADIUS);
 
 
 	window.addEventListener("MozOrientation", ball.setAcceleration, true);  
+	// Webkit (Chrome)
+	window.addEventListener("deviceorientation", ball.setAccelerationFromOrientation, true);  
 	setInterval(ball.move, 1000 / FRAMES_PER_SECOND);
 });
