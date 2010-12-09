@@ -16,8 +16,8 @@ function Ball(x, y, radius) {
 		z: 0
 	};
 
-	this.setAcceleration = function(event) {
-		self.acceleration = event.acceleration;
+	this.setAcceleration = function(orientData) {
+		self.acceleration = orientData;
 	};
 
 	this.setAccelerationFromOrientation = function(event) {
